@@ -1,4 +1,5 @@
 import { FlatCompat } from "@eslint/eslintrc";
+import pluginQuery from '@tanstack/eslint-plugin-query'
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
@@ -15,6 +16,7 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...pluginQuery.configs['flat/recommended'],
   {
     plugins: {
       "@typescript-eslint": typescriptEslint, // 用于 TypeScript 的 ESLint 插件
