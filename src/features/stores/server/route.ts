@@ -27,5 +27,26 @@ const app = new Hono()
 
       return c.json(store)
     })
+  .get('/:storeId', async (c) => {
+    const auth = getAuth(c)
+    if (!auth?.userId) {
+      return c.json({ message: 'Unauthorized' }, 401)
+    }
+
+    const { storeId } = c.req.param()
+
+    const store = await prismadb.store.findUnique({
+      where: {
+        id: storeId,
+        userId: auth.userId,
+      },
+    })
+
+    if (!store) {
+      return c.json({ message: 'Store not found' }, 404)
+    }
+
+    return c.json(store)
+  })
 
 export default app

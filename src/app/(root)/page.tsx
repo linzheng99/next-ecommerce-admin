@@ -1,23 +1,20 @@
-"use client"
+import { auth } from "@clerk/nextjs/server"
+import { redirect } from "next/navigation"
 
-import { UserButton } from '@clerk/nextjs'
-import { useEffect } from 'react';
+import { getStoresByUserId } from "@/features/stores/queries"
 
-import { useStoreModal } from '@/features/stores/store/use-store-modal';
 
-export default function SetupPage() {
-  const { isOpen, onOpen } = useStoreModal()
+export default async function SetupPage() {
+  const { userId } = await auth()
+  if (!userId) redirect('/sign-in')
 
-  useEffect(() => {
-    if (!isOpen) {
-      onOpen()
-    }
-  }, [isOpen, onOpen])
+  const stores = await getStoresByUserId({ userId })
 
-  return (
-    <div className='p-4'>
-      <h1>Next Ecommerce Admin Dashboard</h1>
-      <UserButton />
-    </div>
-  );
-}
+  if (stores.length === 0) {
+    redirect('/stores/create')
+  } else {
+    const store = stores[0]
+    if (!store) redirect('/stores/create')
+    redirect(`/stores/${store.id}`)
+  }
+};

@@ -1,6 +1,7 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { type z } from "zod"
 
@@ -21,6 +22,7 @@ import { createStoreSchema } from "../schemas";
 import { useStoreModal } from "../store/use-store-modal";
 
 export default function StoreModal() {
+  const router = useRouter()
   const storeModal = useStoreModal()
   const { mutate, isPending } = useCreateStore()
 
@@ -33,8 +35,10 @@ export default function StoreModal() {
 
   function onSubmit(values: z.infer<typeof createStoreSchema>) {
     mutate({ json: values }, {
-      onSuccess: () => {
+      onSuccess: (data) => {
+        router.push(`/stores/${data.id}`)
         form.reset()
+        storeModal.onClose()
       },
       onError: (error) => {
         console.error(error)
