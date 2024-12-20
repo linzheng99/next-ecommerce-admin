@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod"
+import { type z } from "zod"
 
 import Modal from "@/components/modal";
 import { Button } from "@/components/ui/button"
@@ -16,24 +16,30 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 
+import { useCreateStore } from "../api/use-create-store";
+import { createStoreSchema } from "../schemas";
 import { useStoreModal } from "../store/use-store-modal";
 
 export default function StoreModal() {
   const storeModal = useStoreModal()
+  const { mutate, isPending } = useCreateStore()
 
-  const formSchema = z.object({
-    name: z.string().min(1, { message: "Store name is required" }),
-  })
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof createStoreSchema>>({
+    resolver: zodResolver(createStoreSchema),
     defaultValues: {
       name: "",
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values)
+  function onSubmit(values: z.infer<typeof createStoreSchema>) {
+    mutate({ json: values }, {
+      onSuccess: () => {
+        form.reset()
+      },
+      onError: (error) => {
+        console.error(error)
+      }
+    })
   }
 
   return (
@@ -53,15 +59,15 @@ export default function StoreModal() {
                 <FormItem>
                   <FormLabel> Name </FormLabel>
                   <FormControl>
-                    <Input placeholder="E-Commerce Store" {...field} />
+                    <Input placeholder="E-Commerce Store" {...field} disabled={isPending} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <div className="flex items-center justify-end gap-4 w-full">
-              <Button type="button" variant="outline" onClick={storeModal.onClose}>Cancel</Button>
-              <Button type="submit">Continue</Button>
+              <Button type="button" variant="outline" onClick={storeModal.onClose} disabled={isPending}>Cancel</Button>
+              <Button type="submit" disabled={isPending}>Continue</Button>
             </div>
           </form>
         </Form>

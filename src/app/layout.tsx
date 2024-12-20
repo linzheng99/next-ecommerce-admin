@@ -5,6 +5,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import ModalProvider from "@/components/modal-provider";
+import QueryProvider from "@/components/query-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,8 +19,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Next Ecommerce Admin Dashboard",
-  description: "Next Ecommerce Admin Dashboard",
+  title: "Ecommerce Admin Dashboard",
+  description: "Ecommerce Admin Dashboard for Next",
 };
 
 export default function RootLayout({
@@ -32,8 +34,11 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <ModalProvider />
-          {children}
+          <QueryProvider>
+            <Toaster />
+            <ModalProvider />
+            {children}
+          </QueryProvider>
         </body>
       </html>
     </ClerkProvider>
