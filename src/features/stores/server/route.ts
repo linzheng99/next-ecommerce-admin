@@ -4,7 +4,7 @@ import { Hono } from 'hono'
 
 import prismadb from '@/lib/prismadb';
 
-import { createStoreSchema } from '../schemas';
+import { createStoreSchema, updateStoreSchema } from '../schemas';
 
 const app = new Hono()
   .post('/',
@@ -62,6 +62,46 @@ const app = new Hono()
     })
 
     return c.json(stores)
+  })
+  .patch('/:storeId',
+    zValidator('json', updateStoreSchema),
+    async (c) => {
+      const auth = getAuth(c)
+
+      if (!auth?.userId) {
+        return c.json({ message: 'Unauthorized' }, 401)
+      }
+
+      const { name } = c.req.valid('json')
+      const { storeId } = c.req.param()
+
+      const store = await prismadb.store.update({
+        where: {
+          id: storeId,
+          userId: auth.userId,
+        },
+        data: { name },
+      })
+
+      return c.json(store)
+    })
+  .delete('/:storeId', async (c) => {
+    const auth = getAuth(c)
+
+    if (!auth?.userId) {
+      return c.json({ message: 'Unauthorized' }, 401)
+    }
+
+    const { storeId } = c.req.param()
+
+    const store = await prismadb.store.delete({
+      where: {
+        id: storeId,
+        userId: auth.userId,
+      },
+    })
+
+    return c.json({ id: store.id })
   })
 
 export default app

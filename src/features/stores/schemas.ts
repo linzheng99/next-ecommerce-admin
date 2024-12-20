@@ -5,3 +5,9 @@ export const createStoreSchema = z.object({
     message: "please enter store name",
   }),
 })
+
+export const updateStoreSchema = z.object({
+  name: z.string().min(1, {
+    message: "please enter store name",
+  }),
+})

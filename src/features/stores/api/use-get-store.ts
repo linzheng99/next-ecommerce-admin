@@ -20,7 +20,11 @@ export const useGetStore = ({ storeId }: UseGetStoreProps) => {
 
       const data = await response.json()
 
-      return data
+      return {
+        ...data,
+        updatedAt: new Date(data.updatedAt),
+        createdAt: new Date(data.createdAt),
+      }
     }
   })
   return query
