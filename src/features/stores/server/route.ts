@@ -48,5 +48,20 @@ const app = new Hono()
 
     return c.json(store)
   })
+  .get('/', async (c) => {
+    const auth = getAuth(c)
+
+    if (!auth?.userId) {
+      return c.json({ message: 'Unauthorized' }, 401)
+    }
+
+    const stores = await prismadb.store.findMany({
+      where: {
+        userId: auth.userId,
+      },
+    })
+
+    return c.json(stores)
+  })
 
 export default app
