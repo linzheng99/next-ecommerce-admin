@@ -12,6 +12,11 @@ export default function MainNav() {
 
   const routes = [
     {
+      href: `/stores/${storeId}`,
+      label: "Overview",
+      active: pathname === `/stores/${storeId}`,
+    },
+    {
       href: `/stores/${storeId}/settings`,
       label: "Settings",
       active: pathname === `/stores/${storeId}/settings`,

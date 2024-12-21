@@ -4,6 +4,7 @@ import { Trash } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 
+import ApiAlert from "@/components/api-alert"
 import Heading from "@/components/heading"
 import PageError from "@/components/page-error"
 import PageLoader from "@/components/page-loader"
@@ -13,11 +14,13 @@ import { useDeleteStore } from "@/features/stores/api/use-delete-store"
 import { useGetStore } from "@/features/stores/api/use-get-store"
 import StoreSettings from "@/features/stores/components/store-settings"
 import { useConfirm } from "@/hooks/use-confirm"
+import { useOrigin } from "@/hooks/use-origin"
 import { useStoreId } from "@/hooks/use-store-id"
 
 export default function SettingsClient() {
   const storeId = useStoreId()
   const router = useRouter()
+  const origin = useOrigin()
 
   const { data: store, isLoading: isLoadingStore } = useGetStore({ storeId })
   const { mutate: deleteStore, isPending: isDeleting } = useDeleteStore()
@@ -64,6 +67,12 @@ export default function SettingsClient() {
         </div>
         <Separator />
         <StoreSettings initialData={store} />
+        <Separator />
+        <ApiAlert
+          title="NEXT_PUBLIC_API_URL"
+          description={`${origin}/api/stores/${store.id}`}
+          variant="public"
+        />
       </div>
     </>
   )
