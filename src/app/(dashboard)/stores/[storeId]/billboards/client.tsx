@@ -10,6 +10,7 @@ import PageLoader from "@/components/page-loader"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { useGetBillboards } from "@/features/billboards/api/use-get-billboards"
+import ApiList from "@/features/billboards/components/api-list"
 import { columns } from "@/features/billboards/components/columns"
 import { useStoreId } from "@/hooks/use-store-id"
 
@@ -41,6 +42,8 @@ export default function BillboardsClient() {
       </div>
       <Separator />
       <DataTable columns={columns} data={formattedBillboards ?? []} searchKey="label" />
+      <Separator />
+      <ApiList entityName="billboards" entityIdName="billboardId" />
     </div>
   )
 }

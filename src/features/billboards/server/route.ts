@@ -79,7 +79,7 @@ const app = new Hono()
       })
       if (!store) {
         return c.json({ message: 'Unauthorized' }, 403)
-      }      
+      }
 
       const values: Record<string, string> = {}
 
