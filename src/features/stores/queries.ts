@@ -1,6 +1,5 @@
 "use server"
 
-
 import prismadb from "@/lib/prismadb"
 
 export async function getStoresByUserId({ userId }: { userId: string }) {
