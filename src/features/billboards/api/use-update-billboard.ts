@@ -22,7 +22,7 @@ export const useUpdateBillboard = () => {
     },
     onSuccess: (data) => {
       toast.success('Billboard updated successfully!')
-      void queryClient.invalidateQueries({ queryKey: ['billboards'] })
+      void queryClient.invalidateQueries({ queryKey: ['billboards', data.storeId] })
       void queryClient.invalidateQueries({ queryKey: ['billboards', data.id] })
     },
     onError: (error) => {

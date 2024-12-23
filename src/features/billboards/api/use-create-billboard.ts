@@ -20,9 +20,9 @@ export const useCreateBillboard = () => {
 
       return await response.json()
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success('Billboard created successfully!')
-      void queryClient.invalidateQueries({ queryKey: ['billboards'] })
+      void queryClient.invalidateQueries({ queryKey: ['billboards', data.storeId] })
     },
     onError: (error) => {
       toast.error(error.message)

@@ -45,8 +45,6 @@ const app = new Hono()
         where: { id: storeId, userId: auth.userId },
       })
 
-      console.log(store, auth.userId)
-
       if (!store) {
         return c.json({ message: 'Unauthorized' }, 403)
       }
@@ -110,6 +108,9 @@ const app = new Hono()
       const billboards = await prismadb.billboard.findMany({
         where: {
           storeId: storeId,
+        },
+        orderBy: {
+          createdAt: 'desc',
         },
       })
 
