@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { type z } from "zod"
 
+import { ImageUpload } from "@/components/image-upload"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -54,9 +55,27 @@ export default function BillboardSettings({ initialData }: BillboardSettingsProp
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full p-8">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-full flex flex-col gap-4">
+          <FormField
+            control={form.control}
+            name="imageUrl"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel> Background image </FormLabel>
+                <FormControl>
+                  <ImageUpload
+                    value={field.value ? [field.value] : []}
+                    disabled={isPending}
+                    onChange={(url) => field.onChange(url)}
+                    onRemove={() => field.onChange(null)}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <div className="grid grid-cols-3 gap-4">
             <FormField
               control={form.control}
