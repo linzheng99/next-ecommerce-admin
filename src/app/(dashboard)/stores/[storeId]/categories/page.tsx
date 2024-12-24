@@ -1,3 +1,7 @@
+import CategoriesClient from "./client"
+
 export default function CategoriesPage() {
-  return <div>CategoriesPage</div>
+  return <CategoriesClient />
 }
+
+
