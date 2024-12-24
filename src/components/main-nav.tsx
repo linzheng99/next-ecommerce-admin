@@ -17,14 +17,19 @@ export default function MainNav() {
       active: pathname === `/stores/${storeId}`,
     },
     {
+      href: `/stores/${storeId}/billboards`,
+      label: "Billboards",
+      active: pathname === `/stores/${storeId}/billboards`,
+    },
+    {
       href: `/stores/${storeId}/categories`,
       label: "Categories",
       active: pathname === `/stores/${storeId}/categories`,
     },
     {
-      href: `/stores/${storeId}/billboards`,
-      label: "Billboards",
-      active: pathname === `/stores/${storeId}/billboards`,
+      href: `/stores/${storeId}/sizes`,
+      label: "Sizes",
+      active: pathname === `/stores/${storeId}/sizes`,
     },
     {
       href: `/stores/${storeId}/settings`,

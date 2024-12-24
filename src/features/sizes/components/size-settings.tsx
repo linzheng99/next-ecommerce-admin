@@ -1,7 +1,7 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { type Category } from "@prisma/client"
+import { type Size } from "@prisma/client"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { type z } from "zod"
@@ -16,39 +16,39 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useCategoryId } from "@/hooks/use-category-id"
+import { useSizeId } from "@/hooks/use-size-id"
 import { useStoreId } from "@/hooks/use-store-id"
 
-import { useUpdateCategory } from "../api/use-update-category"
-import { updateCategorySchema } from "../schemas"
+import { useUpdateSize } from "../api/use-update-size"
+import { updateSizeSchema } from "../schemas"
 
-interface CategorySettingsProps {
-  initialData: Category | null
+interface SizeSettingsProps {
+  initialData: Size | null
 }
 
-export default function CategorySettings({ initialData }: CategorySettingsProps) {
+export default function SizeSettings({ initialData }: SizeSettingsProps) {
   const storeId = useStoreId()
-  const categoryId = useCategoryId()
+  const sizeId = useSizeId()
   const router = useRouter()
-  const { mutate, isPending } = useUpdateCategory()
-  const form = useForm<z.infer<typeof updateCategorySchema>>({
-    resolver: zodResolver(updateCategorySchema),
-    defaultValues: initialData || { name: '', billboardId: '' },
+  const { mutate, isPending } = useUpdateSize()
+  const form = useForm<z.infer<typeof updateSizeSchema>>({
+    resolver: zodResolver(updateSizeSchema),
+    defaultValues: initialData || { name: '', value: '' },
   })
 
-  function onSubmit(values: z.infer<typeof updateCategorySchema>) {
+  function onSubmit(values: z.infer<typeof updateSizeSchema>) {
     mutate({
       json: {
         name: values.name,
         storeId: storeId,
-        billboardId: values.billboardId,
+        value: values.value,
       },
       param: {
-        categoryId: categoryId,
+        sizeId: sizeId,
       },
     }, {
       onSuccess: () => {
-        router.push(`/stores/${storeId}/categories`)
+        router.push(`/stores/${storeId}/sizes`)
       }
     })
   }
@@ -65,7 +65,20 @@ export default function CategorySettings({ initialData }: CategorySettingsProps)
                 <FormItem>
                   <FormLabel> Name </FormLabel>
                   <FormControl>
-                    <Input placeholder="Men, Women, Kids, etc." {...field} disabled={isPending} />
+                    <Input placeholder="Small, Medium, Large, etc." {...field} disabled={isPending} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="value"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel> Value </FormLabel>
+                  <FormControl>
+                    <Input placeholder="S, M, L, XL, etc." {...field} disabled={isPending} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

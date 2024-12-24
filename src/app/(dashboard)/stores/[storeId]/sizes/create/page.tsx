@@ -15,37 +15,28 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { useGetBillboards } from '@/features/billboards/api/use-get-billboards';
-import { useCreateCategory } from "@/features/categories/api/use-create-category";
-import { createCategorySchema } from "@/features/categories/schemas";
+import { useCreateSize } from "@/features/sizes/api/use-create-size";
+import { createSizeSchema } from "@/features/sizes/schemas";
 import { useStoreId } from "@/hooks/use-store-id";
 
-export default function CreateCategoryModal() {
+export default function CreateSizeModal() {
   const router = useRouter()
   const storeId = useStoreId()
-  const { data: billboards } = useGetBillboards({ storeId })
-  const { mutate, isPending } = useCreateCategory()
+  const { mutate, isPending } = useCreateSize()
 
-  const form = useForm<z.infer<typeof createCategorySchema>>({
-    resolver: zodResolver(createCategorySchema),
+  const form = useForm<z.infer<typeof createSizeSchema>>({
+    resolver: zodResolver(createSizeSchema),
     defaultValues: {
       name: "",
-      billboardId: "",
+      value: "",
       storeId: storeId,
     },
   })
 
-  function onSubmit(values: z.infer<typeof createCategorySchema>) {
+  function onSubmit(values: z.infer<typeof createSizeSchema>) {
     mutate({ json: values }, {
       onSuccess: () => {
-        router.push(`/stores/${storeId}/categories`)
+        router.push(`/stores/${storeId}/sizes`)
         form.reset()
       },
       onError: (error) => {
@@ -66,7 +57,7 @@ export default function CreateCategoryModal() {
                 <FormItem>
                   <FormLabel> Name </FormLabel>
                   <FormControl>
-                    <Input placeholder="Men, Women, Kids, etc." {...field} disabled={isPending} />
+                    <Input placeholder="Small, Medium, Large, etc." {...field} disabled={isPending} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -74,24 +65,13 @@ export default function CreateCategoryModal() {
             />
             <FormField
               control={form.control}
-              name="billboardId"
+              name="value"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel> Billboard </FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select Billboard" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {billboards?.map((billboard) => (
-                        <SelectItem key={billboard.id} value={billboard.id}>
-                          {billboard.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <FormLabel> Value </FormLabel>
+                  <FormControl>
+                    <Input placeholder="S, M, L, XL, etc." {...field} disabled={isPending} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
