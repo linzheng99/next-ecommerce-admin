@@ -4,14 +4,14 @@ import { type ColumnDef } from "@tanstack/react-table"
 
 import { CellAction } from "./cell-action"
 
-export type Size = {
+export type Color = {
   id: string
   name: string
   value: string
   createdAt: string
 }
 
-export const columns: ColumnDef<Size>[] = [
+export const columns: ColumnDef<Color>[] = [
   {
     accessorKey: "name",
     header: "Name",
@@ -19,6 +19,10 @@ export const columns: ColumnDef<Size>[] = [
   {
     accessorKey: "value",
     header: "Value",
+    cell: ({ row }) => {
+      const color = row.original
+      return <div className="w-6 h-6 rounded-full border" style={{ backgroundColor: color.value }} />
+    },
   },
   {
     accessorKey: "createdAt",
@@ -28,8 +32,8 @@ export const columns: ColumnDef<Size>[] = [
     accessorKey: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      const size = row.original
-      return <CellAction size={size} />
+      const color = row.original
+      return <CellAction color={color} />
     },
   }
 ]
