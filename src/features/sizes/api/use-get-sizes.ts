@@ -20,7 +20,11 @@ export const useGetSizes = ({ storeId }: UseGetSizesProps) => {
 
       const data = await response.json()
 
-      return data
+      return data.map((size) => ({
+        ...size,
+        createdAt: new Date(size.createdAt),
+        updatedAt: new Date(size.updatedAt),
+      }))
     }
   })
   return query

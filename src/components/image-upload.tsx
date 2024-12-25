@@ -26,7 +26,7 @@ export const ImageUpload = ({
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function onUpload(result: any) {
-    onChange(result.secure_url)
+    onChange(result.info.secure_url)
   }
 
   if (!isMounted) {
@@ -58,7 +58,7 @@ export const ImageUpload = ({
       </div>
       <CldUploadWidget
         onSuccess={(result) => {
-          onUpload(result.info);
+          onUpload(result);
         }}
         uploadPreset="ecommerce-admin"
       >

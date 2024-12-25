@@ -20,7 +20,11 @@ export const useGetColors = ({ storeId }: UseGetColorsProps) => {
 
       const data = await response.json()
 
-      return data
+      return data.map((color) => ({
+        ...color,
+        createdAt: new Date(color.createdAt),
+        updatedAt: new Date(color.updatedAt),
+      }))
     }
   })
   return query

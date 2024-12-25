@@ -27,6 +27,8 @@ export const useGetCategories = ({ storeId }: UseGetCategoriesProps) => {
           createdAt: new Date(category.billboard.createdAt),
           updatedAt: new Date(category.billboard.updatedAt),
         },
+        createdAt: new Date(category.createdAt),
+        updatedAt: new Date(category.updatedAt),
       }))
 
       return categories

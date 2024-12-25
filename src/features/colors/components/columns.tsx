@@ -21,7 +21,12 @@ export const columns: ColumnDef<Color>[] = [
     header: "Value",
     cell: ({ row }) => {
       const color = row.original
-      return <div className="w-6 h-6 rounded-full border" style={{ backgroundColor: color.value }} />
+      return (
+        <div className="flex items-center gap-x-4">
+          <span>{color.value}</span>
+          <div className="w-6 h-6 rounded-full border" style={{ backgroundColor: color.value }} />
+        </div>
+      )
     },
   },
   {
