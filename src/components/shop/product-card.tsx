@@ -2,6 +2,8 @@
 
 import { type Category, type Image as ImageType, type Product } from "@prisma/client"
 import { Expand, ShoppingCart } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import Currency from "./currency";
 import IconButton from "./icon-button";
@@ -14,8 +16,22 @@ interface ProductCardProps {
   }
 }
 export default function ProductCard({ data }: ProductCardProps) {
+  const router = useRouter()
+  const [isMounted, setIsMounted] = useState(false)
+
+  function handleClick() {
+    console.log(data.id)
+    router.push(`/shop/product/${data.id}`)
+  }
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) return null
+
   return (
-    <div className="bg-white group cursor-pointer rounded-xl border p-3 space-y-4">
+    <div className="bg-white group cursor-pointer rounded-xl border p-3 space-y-4" onClick={handleClick}>
       <div className="aspect-square rounded-xl bg-gray-100 relative">
         <img
           src={data?.images?.[0].url}
