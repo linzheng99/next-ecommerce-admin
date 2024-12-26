@@ -20,7 +20,9 @@ export const createProductSchema = z.object({
     url: z.string().min(1, {
       message: "please upload at least one image",
     }),
-  }).array(),
+  }).array().min(1, {
+    message: "please upload at least one image",
+  }),
   isFeatured: z.boolean().optional(),
   isArchived: z.boolean().optional(),
   storeId: z.string().min(1, {
