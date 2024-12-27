@@ -6,13 +6,15 @@ import { client } from "@/lib/rpc"
 
 interface UseGetCategoriesProps {
   storeId: string
+  sizeId?: string
+  colorId?: string
 }
 
-export const useGetCategories = ({ storeId }: UseGetCategoriesProps) => {
+export const useGetCategories = ({ storeId, sizeId, colorId }: UseGetCategoriesProps) => {
   const query = useQuery({
-    queryKey: ['categories', storeId],
+    queryKey: ['categories', storeId, sizeId, colorId],
     queryFn: async () => {
-      const response = await client.api.categories.$get({ query: { storeId } })
+      const response = await client.api.categories.$get({ query: { storeId, sizeId, colorId } })
 
       if (!response.ok) {
         throw new Error('get store failed...')

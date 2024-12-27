@@ -1,14 +1,29 @@
+'use client'
+
+import { type Category } from "@prisma/client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-import { getCategories } from "@/features/categories/queries";
+import { cn } from "@/lib/utils";
 
-export default async function MainNav() {
-  const categories =  await getCategories(process.env.NEXT_PUBLIC_STORE_ID!)
+interface MainNavProps {
+  categories: Category[]
+}
+
+export default function MainNav({ categories }: MainNavProps) {
+  const pathname = usePathname()
+
+  const routes = categories.map((category) => ({
+    href: `/shop/category/${category.id}`,
+    label: category.name,
+    active: pathname === `/shop/category/${category.id}`,
+  }))
+
   return (
     <nav className="flex items-center space-x-4 lg:space-x-6">
-      {categories.map((category) => (
-        <Link href={`/shop/category/${category.id}`} key={category.id} className="text-sm font-medium transition-colors hover:text-black">
-          {category.name}
+      {routes.map((route) => (
+        <Link href={route.href} key={route.href} className={cn("text-sm font-medium transition-colors hover:text-black", route.active ? "text-black" : "text-muted-foreground")}>
+          {route.label}
         </Link>
       ))}
     </nav>

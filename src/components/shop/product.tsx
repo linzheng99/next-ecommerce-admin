@@ -9,7 +9,7 @@ interface ProductProps {
     price: string
     category: Category
   })[]
-  title: string
+  title?: string
 }
 
 export default function Product({ products, title }: ProductProps) {

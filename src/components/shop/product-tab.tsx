@@ -8,7 +8,7 @@ interface ProductTabProps {
 export default function ProductTab({ images }: ProductTabProps) {
   return (
     <TabGroup className="flex flex-col-reverse">
-      <div className='mt-6 hidden sm:block lg:max-w-none max-w-2xl'>
+      <div className='mt-6 sm:block lg:max-w-none max-w-2xl'>
         <TabList className='grid grid-cols-4 gap-6'>
           {images?.map((image) => (
             <Tab key={image.id} className="relative flex aspect-square h-full w-full cursor-pointer items-center justify-center rounded-md bg-white text-sm transition-all hover:opacity-75 data-[selected]:ring-2 data-[selected]:ring-offset-2 data-[selected]:ring-black focus:outline-none">

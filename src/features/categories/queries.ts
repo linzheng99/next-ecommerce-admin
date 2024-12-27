@@ -2,7 +2,11 @@
 
 import prismadb from "@/lib/prismadb"
 
-export  async function getCategories(storeId: string) {
+interface GetCategoriesProps {
+  storeId: string
+}
+
+export async function getCategories({ storeId }: GetCategoriesProps) {
   const categories = await prismadb.category.findMany({
     where: {
       storeId: storeId,
@@ -16,5 +20,17 @@ export  async function getCategories(storeId: string) {
   })
 
   return categories
+}
 
+export async function getCategoryById({ categoryId }: { categoryId: string }) {
+  const category = await prismadb.category.findUnique({
+    where: {
+      id: categoryId,
+    },
+    include: {
+      billboard: true,
+    },
+  })
+
+  return category
 }

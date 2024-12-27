@@ -1,10 +1,10 @@
-import { getBillboard } from "@/features/billboards/queries";
+import { type Billboard } from "@prisma/client";
 
-export default async function Billboard() {
-  const billboard = await getBillboard({ 
-    storeId: process.env.NEXT_PUBLIC_STORE_ID!, 
-    billboardId: '598522f2-33bb-4d59-95ce-5917b82141a4' 
-  })
+interface BillboardProps {
+  billboard: Billboard | null | undefined
+}
+
+export default function Billboard({ billboard }: BillboardProps) {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 rounded-xl overflow-hidden">

@@ -1,13 +1,15 @@
 
 import prismadb from "@/lib/prismadb"
 
-export async function getProducts({ storeId, name, categoryId }: { storeId: string, name?: string, categoryId?: string }) {
+export async function getProducts({ storeId, name, categoryId, sizeId, colorId }: { storeId: string, name?: string, categoryId?: string, sizeId?: string, colorId?: string }) {
   const products = await prismadb.product.findMany({
     where: {
       storeId: storeId,
       isFeatured: true,
       name: name,
-      categoryId: categoryId
+      categoryId: categoryId,
+      sizeId: sizeId,
+      colorId: colorId
     },
     include: {
       images: true,

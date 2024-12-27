@@ -61,11 +61,11 @@ const app = new Hono()
   .get('/',
     zValidator('query', z.object({ storeId: z.string() })),
     async (c) => {
-      // const auth = getAuth(c)
+      const auth = getAuth(c)
 
-      // if (!auth?.userId) {
-      //   return c.json({ message: 'Unauthorized' }, 401)
-      // }
+      if (!auth?.userId) {
+        return c.json({ message: 'Unauthorized' }, 401)
+      }
 
       const { storeId } = c.req.query()
 
