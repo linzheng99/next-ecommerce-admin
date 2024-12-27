@@ -1,14 +1,16 @@
-import { type Category, type Color, type Product, type Size } from "@prisma/client"
+import { type Category, type Color, type Image, type Product, type Size } from "@prisma/client"
 import { ShoppingCartIcon } from "lucide-react"
 
 import { Button } from "../ui/button"
 import Currency from "./currency"
 
 interface ProductInfoProps {
-  product: (Product & {
+  product: (Omit<Product, "price"> & {
     category: Category
+    price: string
     size: Size
     color: Color
+    images: Image[]
   }) | null
 }
 

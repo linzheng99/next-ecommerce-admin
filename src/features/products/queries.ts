@@ -13,7 +13,9 @@ export async function getProducts({ storeId, name, categoryId, sizeId, colorId }
     },
     include: {
       images: true,
-      category: true
+      category: true,
+      size: true,
+      color: true
     }
   })
 

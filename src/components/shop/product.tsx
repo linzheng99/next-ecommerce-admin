@@ -1,5 +1,5 @@
 
-import { type Category, type Image as ImageType, type Product } from '@prisma/client';
+import { type Category, type Color, type Image as ImageType, type Product,type Size } from '@prisma/client';
 
 import ProductCard from "./product-card";
 
@@ -8,6 +8,8 @@ interface ProductProps {
     images: ImageType[]
     price: string
     category: Category
+    size: Size
+    color: Color
   })[]
   title?: string
 }

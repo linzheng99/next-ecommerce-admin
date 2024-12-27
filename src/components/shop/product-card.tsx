@@ -1,9 +1,11 @@
 "use client"
 
-import { type Category, type Image as ImageType, type Product } from "@prisma/client"
+import { type Category, type Color, type Image as ImageType, type Product,type Size } from "@prisma/client"
 import { Expand, ShoppingCart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+
+import { usePreviewModal } from "@/store/use-preview-modal";
 
 import Currency from "./currency";
 import IconButton from "./icon-button";
@@ -13,15 +15,23 @@ interface ProductCardProps {
     images: ImageType[]
     price: string
     category: Category
+    size: Size
+    color: Color
   }
 }
 export default function ProductCard({ data }: ProductCardProps) {
   const router = useRouter()
+  const { onOpen } = usePreviewModal()
   const [isMounted, setIsMounted] = useState(false)
 
   function handleClick() {
     console.log(data.id)
     router.push(`/shop/product/${data.id}`)
+  }
+
+  function handlePreview(e: React.MouseEvent<HTMLButtonElement>) {
+    e.stopPropagation()
+    onOpen(data)
   }
 
   useEffect(() => {
@@ -42,7 +52,7 @@ export default function ProductCard({ data }: ProductCardProps) {
           <div className="flex justify-center items-end gap-x-6">
             <IconButton
               icon={<Expand className="text-gray-600" size={20} />}
-              onClick={() => { }}
+              onClick={handlePreview}
             />
             <IconButton
               icon={<ShoppingCart className="text-gray-600" size={20} />}
