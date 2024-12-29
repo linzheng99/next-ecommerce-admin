@@ -25,7 +25,6 @@ export default async function StoreIdPage({ params }: StoreIdPageProps) {
   const salesCount = await getSalesCount({ storeId })
   const productsInStock = await getStockCount({ storeId })
   const graphData = await getGraphRevenue({ storeId })
-  console.log(graphData)
 
   return <StoreIdClient totalRevenue={totalRevenue} salesCount={salesCount} productsInStock={productsInStock} graphData={graphData} />
 }
